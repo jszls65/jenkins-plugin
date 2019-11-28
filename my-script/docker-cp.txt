@@ -1,0 +1,1 @@
+docker cp C:\Workspace\zhoupu-191007\code\jenkins-plugin\target\jenkins-plugin-0.0.1-SNAPSHOT.jar jenkins_dev:\root

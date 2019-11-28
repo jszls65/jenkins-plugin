@@ -1,0 +1,20 @@
+server:
+  port: 8082
+
+jenkins:
+  url: http://localhost:8080
+  # home: C:\Workspace\Docker_Workspace\jenkins_node
+  home: /var/jenkins_home/
+  logUrl: http://localhost:8080/
+  threadSleep: 10000  # 线程睡眠10秒
+
+
+dingtalk:
+  roboturl: https://oapi.dingtalk.com/robot/send
+  token: token
+
+qiniu:
+  ak: ak
+  sk: sk
+  bucket: test
+  domainOfBucket: http://q1lzmqffe.bkt.clouddn.com
