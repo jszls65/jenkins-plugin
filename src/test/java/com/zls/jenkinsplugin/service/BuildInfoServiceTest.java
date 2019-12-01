@@ -22,7 +22,6 @@ class BuildInfoServiceTest {
         msg.setBuildId("33");
         msg.setCodeBranch("dev");
         msg.setUserId("admin");
-        msg.setResult("success");
         msg.setStartTime("2019-11-03 18:03");
         msg.setDuration("300");
         msg.setTestTotal("3");

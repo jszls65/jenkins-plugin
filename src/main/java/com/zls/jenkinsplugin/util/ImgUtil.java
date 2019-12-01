@@ -21,32 +21,7 @@ import java.util.List;
  * @author zhangliansheng
  * @date 2019/11/26
  */
-public class Text2ImgBase64Util {
-
-
-   /* public static void main(String[] args) {
-        try {
-            System.out.println(test());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static String test() throws Exception {
-        String message = "Running as SYSTEM\n" +
-                "Building in workspace /var/jenkins_home/workspace/test-cms\n" +
-                "using credential f0057cc9-54a2-4dc8-8bc8-08153df1858b\n" +
-                " > git rev-parse --is-inside-work-tree # timeout=10\n" +
-                "Fetching changes from the remote Git repository\n" +
-                " > git config remote.origin.url https://gitee.com/johnlisten/roya-cms-full.git # timeout=10\n" +
-                "Fetching upstream changes from https://gitee.com/johnlisten/roya-cms-full.git\n" +
-                " > git --version # timeout=10\n" +
-                "using GIT_ASKPASS to set credentials ";
-        String[] strArr = message.split("\n");
-        createImage(strArr, new Font("宋体", Font.PLAIN, 22));
-        return getImageStr(filePath);
-    }*/
-
+public class ImgUtil {
     /**
      * 根据str,font的样式等生成图片
      * @param strArr
@@ -58,7 +33,6 @@ public class Text2ImgBase64Util {
         int imageWidth = wh[0];
         int imageHeight = wh[1];
 
-
         File outFile = new File(filePath);
         // 创建图片
         BufferedImage image = new BufferedImage(imageWidth, imageHeight,
@@ -66,7 +40,7 @@ public class Text2ImgBase64Util {
         Graphics g = image.getGraphics();
         g.setClip(0, 0, imageWidth, imageHeight);
         // 背景色白色
-        g.setColor(Color.yellow);
+        g.setColor(Color.white);
         g.fillRect(0, 0, imageWidth, imageHeight);
         //  字体颜色黑色
         g.setColor(Color.black);

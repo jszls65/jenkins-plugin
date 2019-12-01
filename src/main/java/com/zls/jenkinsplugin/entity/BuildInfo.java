@@ -16,7 +16,7 @@ public class BuildInfo {
 
     private String userId;
     //构建结果，成功还是失败
-    private String result;
+    private Boolean success;
     //开始时间
     private String startTime;
     // 耗时
@@ -38,6 +38,13 @@ public class BuildInfo {
     private String coverageInstruction;
     // git提交id
     private String commitId;
+    // 提交人的Pinyin name
+    private String commitAuthor;
+    private String commitEmail;
+    private String commitTitle;
+    private String commitMessage;
+    private String commitDate;
+    private String commitBranch;
     private Boolean hasTestCase;
     private Boolean hasCoverage;
     private Boolean hasCommitInfo;
@@ -54,7 +61,7 @@ public class BuildInfo {
                 ", buildId='" + buildId + '\'' +
                 ", codeBranch='" + codeBranch + '\'' +
                 ", userId='" + userId + '\'' +
-                ", result='" + result + '\'' +
+                ", success='" + success + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", duration=" + duration +
                 ", testTotal=" + testTotal +
@@ -68,4 +75,5 @@ public class BuildInfo {
                 ", coverageInstruction=" + coverageInstruction +
                 '}';
     }
+
 }

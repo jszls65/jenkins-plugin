@@ -1,5 +1,6 @@
 package com.zls.jenkinsplugin;
 
+import com.zls.jenkinsplugin.config.JenkinsConfig;
 import com.zls.jenkinsplugin.config.QiniuConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @SpringBootApplication
 @EnableAsync
-@EnableConfigurationProperties({QiniuConfig.class})
+@EnableConfigurationProperties({QiniuConfig.class, JenkinsConfig.class})
 public class Application {
 
     public static void main(String[] args) {
