@@ -14,7 +14,6 @@ public class TextMessage implements Message {
         String result = msg.getSuccess()? "成功" : "失败";
         String content = "Jenkins构建完成\n " +
                 String.format("%s  #%s  构建%s\n", msg.getProject(), msg.getBuildId(), result) +
-                String.format("开始时间：%s  共耗时：%s ms\n", msg.getStartTime(), msg.getDuration()) +
                 String.format("测试用例： 总数：%s，失败：%s，错误：%s，跳过：%s \n", msg.getTestTotal(),
                         msg.getTestFailTotal(), msg.getTestErrorTotal(), msg.getTestSkipTotal()) +
                 String.format("覆盖率报告： 行：%s，类：%s，方法：%s，分支：%s，指令：%s \n", msg.getCoverageLine(), msg.getCoverageClass(),

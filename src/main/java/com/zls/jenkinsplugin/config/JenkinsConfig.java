@@ -9,6 +9,7 @@ public class JenkinsConfig {
     public static String url;
     public static String username;
     public static String password;
+    public static String localhost;
 
     @Value("${jenkins.url}")
     public void setUrl(String url){
@@ -23,6 +24,10 @@ public class JenkinsConfig {
         JenkinsConfig.password = password;
     }
 
+    @Value("${jenkins.localhost}")
+    public void setLocalhost(String localhost) {
+        JenkinsConfig.localhost = localhost;
+    }
 
     public static String getUrl(){
         return url;
@@ -34,5 +39,9 @@ public class JenkinsConfig {
 
     public static String getPassword(){
         return password;
+    }
+
+    public static String getLocalhost() {
+        return localhost;
     }
 }

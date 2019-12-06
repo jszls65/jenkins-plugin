@@ -2,55 +2,27 @@ package com.zls.jenkinsplugin;
 
 import lombok.Data;
 import org.junit.Test;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 
 public class MyTest {
     @Test
     public void test01(){
-        String txt = "Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 25.602 sec";
-
-        String[] list = txt.split(",");
-        TestObj obj = new TestObj();
-        for (int i=0; i<list.length;i++){
-
-            String ky = list[i];
-            String key = ky.trim().split(": ")[0];
-            String value = ky.trim().split(": ")[1];
-            switch (key){
-                case "Tests run":
-                    obj.setTotal(value);
-                    break;
-                case "Failures":
-                    obj.setFailures(value);
-                    break;
-                case "Errors":
-                    obj.setErrors(value);
-                    break;
-
-
-            }
+        String dateStr = "2019-11-29T18:38:21.000+08:00";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        try {
+            Date date =  sdf.parse(dateStr);
+            SimpleDateFormat sdf2 = new SimpleDateFormat("dd号hh点mm分");
+            System.out.println(sdf2.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-
-
-        System.out.println(obj.toString());
-
-
     }
-}
 
-@Data
-class TestObj{
-    private String total;
-    private String failures;
-    private String errors;
-    private String skipped;
-
-    @Override
-    public String toString() {
-        return "TestObj{" +
-                "total='" + total + '\'' +
-                ", failures='" + failures + '\'' +
-                ", errors='" + errors + '\'' +
-                ", skipped='" + skipped + '\'' +
-                '}';
-    }
 }

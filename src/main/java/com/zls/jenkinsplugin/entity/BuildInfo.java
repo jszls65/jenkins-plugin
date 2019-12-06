@@ -17,10 +17,7 @@ public class BuildInfo {
     private String userId;
     //构建结果，成功还是失败
     private Boolean success;
-    //开始时间
-    private String startTime;
-    // 耗时
-    private String duration;
+
     // 测试用例总数
     private String testTotal;
     // 测试用例失败次数
@@ -45,13 +42,15 @@ public class BuildInfo {
     private String commitMessage;
     private String commitDate;
     private String commitBranch;
-    private Boolean hasTestCase;
-    private Boolean hasCoverage;
-    private Boolean hasCommitInfo;
+    private Boolean hasTestCase = false;
+    private Boolean hasCoverage = false;
+    private Boolean hasCommitInfo = false;
     // 按行保存log日志.
     private List<String> consoleLogLines;
     // 上传到七牛云上的图片链接
     private String consoleLogPicUrl;
+    // 本地路径, 防止七牛过期
+    private String consoleLogPicLocalUrl;
     private String remark;
 
     @Override
@@ -62,8 +61,6 @@ public class BuildInfo {
                 ", codeBranch='" + codeBranch + '\'' +
                 ", userId='" + userId + '\'' +
                 ", success='" + success + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", duration=" + duration +
                 ", testTotal=" + testTotal +
                 ", testFailTotal=" + testFailTotal +
                 ", testErrorTotal=" + testErrorTotal +

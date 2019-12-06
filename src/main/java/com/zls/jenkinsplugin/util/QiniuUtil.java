@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class QiniuUtil {
 
     /**
-     * 上传文件
+     * 上传文件  覆盖
      * @param qiniuFileName 上传到七牛云上的文件名, 如果不指定, 则用hash值为文件名
      * @author zhangliansheng
      * @date 2019/11/27
@@ -33,7 +33,7 @@ public class QiniuUtil {
         //如果是Windows情况下，格式是 D:\\qiniu\\test.png
         //默认不指定key的情况下，以文件内容的hash值作为文件名
         Auth auth = Auth.create(QiniuConfig.getAK(), QiniuConfig.getSK());
-        String upToken = auth.uploadToken(QiniuConfig.getBucket());
+        String upToken = auth.uploadToken(QiniuConfig.getBucket(), qiniuFileName);
         try {
             Response response = uploadManager.put(filePath, qiniuFileName, upToken);
             //解析上传成功的结果

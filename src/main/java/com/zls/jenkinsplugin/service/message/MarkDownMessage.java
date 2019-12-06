@@ -1,6 +1,7 @@
 package com.zls.jenkinsplugin.service.message;
 
 import com.dingtalk.api.request.OapiRobotSendRequest;
+import com.zls.jenkinsplugin.constants.StaffMapping;
 import com.zls.jenkinsplugin.entity.BuildInfo;
 import com.zls.jenkinsplugin.util.GitUtil;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,6 @@ public class MarkDownMessage implements Message {
         StringBuilder contentSb = new StringBuilder();
         String result = buildInfo.getSuccess()? "成功" : "失败";
         contentSb.append(String.format("%s  #%s  构建%s", buildInfo.getProject(), buildInfo.getBuildId(), result)).append("\n");
-        contentSb.append(String.format("开始时间：%s  共耗时：%s ms", buildInfo.getStartTime(), buildInfo.getDuration())).append("\n");
         if(buildInfo.getHasTestCase()){
             contentSb.append(String.format("测试用例： 总数：%s，失败：%s，错误：%s，跳过：%s ", buildInfo.getTestTotal(),
                     buildInfo.getTestFailTotal(), buildInfo.getTestErrorTotal(), buildInfo.getTestSkipTotal())).append("\n");
@@ -35,10 +35,11 @@ public class MarkDownMessage implements Message {
         }
 
         contentSb.append(String.format("![screenshot](%s)\n", buildInfo.getConsoleLogPicUrl()));
+        contentSb.append(String.format("图片路径: %s\n", buildInfo.getConsoleLogPicLocalUrl()));
 
         markdown.setText(contentSb.toString());
         request.setMarkdown(markdown);
-
+        request.setAt(StaffMapping.getStaffTelByName(buildInfo.getCommitAuthor()));
         return request;
     }
 }

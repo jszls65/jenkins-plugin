@@ -49,7 +49,16 @@ public class ImgUtil {
         // 每张多少行，当到最后一张时判断是否填充满
         int i = 1;
         g.drawString(strArr.get(0), 0, 0);
+        boolean startErrorLine = false;
         for (String s : strArr) {
+            if(s.startsWith("[ERROR]")){
+                startErrorLine = true;
+            }
+            // 只设置一次
+            if(startErrorLine){
+                g.setColor(Color.red);
+                g.setFont(font);
+            }
             g.drawString(s, 0, wh[2] * i);
             i++;
         }
@@ -70,9 +79,8 @@ public class ImgUtil {
             width = width < lineWidth ? lineWidth : width;
         }
         // 把单个字符的高度+3保证高度绝对能容纳字符串作为图片的高度
-        int height = unitHeight + 3;
+        int height = unitHeight;
         height = height * lines.size();
-        System.out.println("width:" + width + ", height:" + height);
         return new int[]{width, height, unitHeight};
     }
 }

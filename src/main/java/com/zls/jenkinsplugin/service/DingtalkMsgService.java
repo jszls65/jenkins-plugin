@@ -20,6 +20,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -95,51 +96,6 @@ public class DingtalkMsgService {
 
 
     /**
-     * 根据build xml设置Msg信息
-     *
-     * @param
-     * @return
-     * @author zhangliansheng
-     * @date 2019/11/3
-     */
-    public void setBuildInfo2Msg(String path, BuildInfo msg) {
-        if (StringUtil.isBlank(path) || msg == null) {
-            return;
-        }
-        try {
-            Element root = XmlUtil.getRootElement(path);
-
-            String userId = root.element("actions").element("hudson.model.CauseAction").element("causeBag").element("entry").element("hudson.model.Cause_-UserIdCause")
-                    .element("userId").getTextTrim();
-            // branch
-            String codeBranch = "";
-            try{
-                codeBranch = root.element("actions").element("hudson.plugins.git.GitTagAction")
-                        .element("tags").element("entry").element("string").getTextTrim();
-            }catch (Exception e){
-                log.error("获取代码分支名称失败, {}", e);
-            }
-            if (codeBranch.lastIndexOf("/") != -1) {
-                codeBranch = codeBranch.substring(codeBranch.lastIndexOf("/") + 1);
-            }
-            // startTime
-            Long timeStamp = Long.valueOf(root.element("startTime").getTextTrim());
-            String startTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timeStamp);
-
-            msg.setUserId(userId);
-            msg.setCodeBranch(codeBranch);
-            msg.setStartTime(startTime);
-            msg.setDuration(root.element("duration").getTextTrim());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-        }
-    }
-
-
-
-    /**
      * 根据log文件中的内容设置覆盖率信息和单元测试信息
      *
      * @param
@@ -161,6 +117,10 @@ public class DingtalkMsgService {
                 buildInfo.setConsoleLogLines(new ArrayList<String>());
             }
             while ((line = br.readLine()) != null) {
+
+                if(isIgnoreLine(line)){
+                    continue;
+                }
                 //Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
                 if (line.contains("Tests run")) {
                     Map<String, String> testCase = StringUtil.formatStrToMap(line, 0);
@@ -198,7 +158,7 @@ public class DingtalkMsgService {
                     }
                 }
 
-                if(line.contains("Finished: FAILURE")){
+                if(line.contains("Finished: FAILURE") || line.contains("BUILD FAILURE")){
                     buildInfo.setSuccess(false);
                 }
 
@@ -225,6 +185,19 @@ public class DingtalkMsgService {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * 判断是否忽略该行
+     */
+    private boolean isIgnoreLine(String line) {
+        if(StringUtils.isEmpty(line) || StringUtils.isEmpty(line.trim())){
+            return true;
+        }
+        line = line.trim();
+        return line.contains("[INFO] Downloading")
+                || line.contains("[INFO] Downloaded")
+                || line.contains("[INFO]");
     }
 
     /**
@@ -263,7 +236,7 @@ public class DingtalkMsgService {
             if(StringUtil.isBlank(responseString)){
                 return result;
             }
-            String pattern = "(?<=\\\")/job/test-cms/[0-9].?(?=\\\")";
+            String pattern = "/job/"+ project +"/-?[1-9]\\d*";
             Pattern r = Pattern.compile(pattern);
             Matcher m = r.matcher(responseString);
             Set<String> findLines = new TreeSet<>();
